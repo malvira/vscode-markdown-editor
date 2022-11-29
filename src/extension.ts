@@ -258,11 +258,42 @@ class EditorPanel {
             break
           }
           case 'open-link': {
+            console.log("xxx handle a wikilink here")
+            // not much context in the message but the href url
+            // in fixlinkclick in util.ts, message sent will be modified with a wikilink: true/false
+            // if true
+            // then do the wikilink thing from foam
+      // from https://github.com/foambubble/foam/blob/master/packages/foam-vscode/src/features/preview/wikilink-navigation.ts 
+      //  32: const link = vscode.workspace.asRelativePath(toVsCodeUri(resource.uri));
+        //33: return `<a class='foam-note-link' title='${resource.title}' href='/${link}' data-href='/${link}'>${label}</a>`;
+
+            console.log(message)
             let url = message.href
             if (!/^http/.test(url)) {
               url = NodePath.resolve(this._fsPath, '..', url)
             }
-            vscode.commands.executeCommand('vscode.open', vscode.Uri.parse(url))
+
+            // here, test wikilink prop. if true, do the foam thing
+            // else, do this:
+            if (message.wikilink) {
+
+              // see https://github.com/foambubble/foam/blob/master/packages/foam-vscode/src/features/preview/wikilink-navigation.ts
+              // line 31, 32
+
+              // see https://github.com/foambubble/foam/blob/master/packages/foam-vscode/src/core/model/workspace.ts
+              // line 115 find
+              // for how foam resolves paths
+
+
+              //xxx todo, can I launch directly into the vditor?
+              // this extension should have the command for that since it has the right click menu option
+              
+
+              vscode.commands.executeCommand('vscode.open', vscode.Uri.parse(url+".md"))
+            } else {
+              vscode.commands.executeCommand('vscode.open', vscode.Uri.parse(url))
+            }
+
             break
           }
         }

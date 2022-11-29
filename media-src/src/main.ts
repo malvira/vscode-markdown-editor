@@ -31,7 +31,8 @@ function initVditor(msg) {
         theme: {
           current: 'dark',
         },
-      }
+      },
+      '_lutePath': 'assets/lute.min.js'
     })
   }
   defaultOptions = merge(defaultOptions, msg.options, {

@@ -104,16 +104,32 @@ export function handleToolbarClick() {
 }
 
 export function fixLinkClick() {
-  const openLink = (url: string) => {
-    vscode.postMessage({ command: 'open-link', href: url })
+  // this is where the open-link message comes from
+  // could add more context about a wikilink here maybe
+  // to debug this, in running webview do ctrl+shift+p open webview developer tools
+  // that brings up chrome debugger and the console for the webview
+  const openLink = (url: string, wikilink: boolean) => {
+    vscode.postMessage({ command: 'open-link', href: url, wikilink: wikilink })
   }
   document.addEventListener('click', e=> {
     let el = e.target as HTMLAnchorElement
+    console.log("in fix link click")
+    console.dir(el)
+
+    // this is where we will test for 
+    // foam-wikilink in el.classList
+    // and set a wikilink: true/false property in the message
+    // extension.ts open-link will handle the message and use the wikilink flag to resolve the path
+
     if (el.tagName === 'A') {
-      openLink(el.href)
+      openLink(el.href, false)
+    } else if (el.tagName === 'SPAN') {
+      openLink(el.textContent, true)
     }
+
   })
   window.open = (url: string, ...args: any[]) => {
+    console.log("fixlinkclick window.open")
     openLink(url)
     return window
   }
