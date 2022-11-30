@@ -20,9 +20,11 @@ import { fixTableIr } from './fix-table-ir'
 import './main.css'
 
 function initVditor(msg) {
+  console.log("initVditor")
   console.log('msg', msg)
   let inputTimer
   let defaultOptions: any = {}
+
   if (msg.theme === 'dark') {
     // vditor.setTheme('dark', 'dark')
     defaultOptions = merge(defaultOptions, {
@@ -32,8 +34,17 @@ function initVditor(msg) {
           current: 'dark',
         },
       },
-      '_lutePath': 'assets/lute.min.js'
-    })
+      // this local lute path is bugged. doesn't work with foo/bar.md b/c tries to get lute in foo/assets/lute.min.js when you launch the editor
+//      '_lutePath': "https://file%2B.vscode-resource.vscode-cdn.net/home/malvira/repos/vscode-markdown-editor/media/dist/main.js"
+//      '_lutePath': "assets/lute.min.js"
+//this works      '_lutePath': "https://file+.vscode-resource.vscode-cdn.net/home/malvira/repos/foam-template/assets/lute.min.js"
+// this should be what the asWebviewURI would return for the contex.ExtensionPath based URI
+// this also works. So if I can get this string generated in the proper way and passed in here
+// then I can just ship a local lute.min.js
+// I think I was able to get the extenstion path easily enough. maybe just hack in the URI scheme part
+//      '_lutePath': "https://file+.vscode-resource.vscode-cdn.net/home/malvira/repos/vscode-markdown-editor/media/dist/lute.min.js"
+      '_lutePath': msg.options.lutePath
+})
   }
   defaultOptions = merge(defaultOptions, msg.options, {
     preview: {

@@ -37441,7 +37441,7 @@ ${getPlaygroundUrl(element.innerHTML)}`);
     });
     window.open = (url, ...args) => {
       console.log("fixlinkclick window.open");
-      openLink(url);
+      openLink(url, false);
       return window;
     };
   }
@@ -39366,6 +39366,7 @@ ${getPlaygroundUrl(element.innerHTML)}`);
 
   // src/main.ts
   function initVditor(msg) {
+    console.log("initVditor");
     console.log("msg", msg);
     let inputTimer;
     let defaultOptions2 = {};
@@ -39377,7 +39378,7 @@ ${getPlaygroundUrl(element.innerHTML)}`);
             current: "dark"
           }
         },
-        "_lutePath": "assets/lute.min.js"
+        "_lutePath": msg.options.lutePath
       });
     }
     defaultOptions2 = (0, import_lodash.merge)(defaultOptions2, msg.options, {

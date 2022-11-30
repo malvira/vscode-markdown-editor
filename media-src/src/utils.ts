@@ -130,7 +130,7 @@ export function fixLinkClick() {
   })
   window.open = (url: string, ...args: any[]) => {
     console.log("fixlinkclick window.open")
-    openLink(url)
+    openLink(url, false)
     return window
   }
 }

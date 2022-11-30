@@ -22,6 +22,21 @@ export function activate(context: vscode.ExtensionContext) {
   )
 
   context.globalState.setKeysForSync([KeyVditorOptions])
+
+  // trying and failing to get the lute path
+  // it resolves to something like
+  // "https://file%2B.vscode-resource.vscode-cdn.net/home/malvira/repos/vscode-markdown-editor/media/dist/main.js"
+  // Get path to resource on disk
+// luteDiskPath = vscode.Uri.file(NodePath.join(context.extensionPath, 'media', 'dist', 'lute.min.js')
+ //);
+ 
+ //let panel: vscode.WebviewPanel
+ // And get the special URI to use with the webview
+ //const lutePath = panel.webview.asWebviewUri(luteDiskPath);
+ 
+   //console.log(luteDiskPath)
+  // console.log(lutePath)
+  
 }
 
 function getWebviewOptions(
@@ -174,12 +189,19 @@ class EditorPanel {
         }
         switch (message.command) {
           case 'ready':
+            const luteDiskPath = vscode.Uri.file(NodePath.join(this._context.extensionPath, 'media', 'dist', 'lute.min.js'))
+            const lutePath = this._panel.webview.asWebviewUri(luteDiskPath)
+
+          console.log("luteDiskPath", luteDiskPath)
+          console.log("lutePath", lutePath)
+
             this._update({
               type: 'init',
               options: {
                 useVscodeThemeColor: this._config.get<boolean>(
                   'useVscodeThemeColor'
                 ),
+                lutePath: lutePath.toString(),
                 ...this._context.globalState.get(KeyVditorOptions),
               },
               theme:
@@ -287,9 +309,9 @@ class EditorPanel {
 
               //xxx todo, can I launch directly into the vditor?
               // this extension should have the command for that since it has the right click menu option
-              
 
-              vscode.commands.executeCommand('vscode.open', vscode.Uri.parse(url+".md"))
+
+              vscode.commands.executeCommand('markdown-editor.openEditor', vscode.Uri.parse(url+".md"))
             } else {
               vscode.commands.executeCommand('vscode.open', vscode.Uri.parse(url))
             }
