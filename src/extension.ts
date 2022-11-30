@@ -299,19 +299,14 @@ class EditorPanel {
             // else, do this:
             if (message.wikilink) {
 
-              // see https://github.com/foambubble/foam/blob/master/packages/foam-vscode/src/features/preview/wikilink-navigation.ts
-              // line 31, 32
-
-              // see https://github.com/foambubble/foam/blob/master/packages/foam-vscode/src/core/model/workspace.ts
-              // line 115 find
-              // for how foam resolves paths
-
-
-              //xxx todo, can I launch directly into the vditor?
-              // this extension should have the command for that since it has the right click menu option
-
-
-              vscode.commands.executeCommand('markdown-editor.openEditor', vscode.Uri.parse(url+".md"))
+              // this seems to work
+              let md = message.href + ".md"
+              console.log("md", md)
+              const found = await vscode.workspace.findFiles(md, null, 10)
+              console.log("find files", found)
+              //can I also select the file in the switcher thing?
+              // would be nice for backlink viewing and disambiguation / orientation
+              vscode.commands.executeCommand('markdown-editor.openEditor', found[0])
             } else {
               vscode.commands.executeCommand('vscode.open', vscode.Uri.parse(url))
             }
