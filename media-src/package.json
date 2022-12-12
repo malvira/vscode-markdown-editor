@@ -4,7 +4,7 @@
   "private": "true",
   "scripts": {
     "start": "yarn esbuild ./src/main.ts --bundle --watch --sourcemap --outfile=../media/dist/main.js",
-    "build": "rm -rf ../media/dist; yarn esbuild ./src/main.ts --bundle --minify --sourcemap --outfile=../media/dist/main.js"
+    "build": "rm -rf ../media/dist; yarn esbuild ./src/main.ts --bundle --minify --sourcemap --outfile=../media/dist/main.js; cp ~/repos/lute/javascript/lute.min.js ../media/dist;"
   },
   "browserslist": "> 0%",
   "devDependencies": {
