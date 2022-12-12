@@ -302,7 +302,8 @@ class EditorPanel {
               // this seems to work
               let md = message.href + ".md"
               console.log("md", md)
-              const found = await vscode.workspace.findFiles(md, null, 10)
+
+              const found = await vscode.workspace.findFiles('**/'+md, null, 10)
               console.log("find files", found)
               //can I also select the file in the switcher thing?
               // would be nice for backlink viewing and disambiguation / orientation
